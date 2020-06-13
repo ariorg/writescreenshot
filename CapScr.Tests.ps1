@@ -11,10 +11,10 @@ Describe "CapScr Test Group" {
         It "should be create screenshot jpg file" {
             . ./CapScr.ps1
             $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
-            Remove-Item $capFilename -Force
+            Remove-Item $capFilename -ErrorAction Ignore
             Write-ScreenshotWin $capFilename
             $capFilename | Should -Exist
-            Remove-Item $capFilename -Force
+            Remove-Item $capFilename -ErrorAction Ignore
         }
 }
 }
