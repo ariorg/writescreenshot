@@ -16,5 +16,5 @@ Describe "CapScr Test Group" {
             $capFilename | Should -Exist
             Remove-Item $capFilename -ErrorAction Ignore
         }
-}
+    }
 }
