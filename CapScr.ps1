@@ -1,7 +1,5 @@
 #!pwsh
 
-Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture' 
-
 function Write-ScreenshotWin([string]$screenShotPath) {
     Add-Type -AssemblyName System.Windows.Forms
     Add-type -AssemblyName System.Drawing
@@ -16,6 +14,7 @@ function Write-ScreenshotMac([string]$screenShotPath) {
     & screencapture -t jpg -x $screenShotPath 
 }
 
+Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture' 
 
 $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
 
