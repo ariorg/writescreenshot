@@ -1,13 +1,20 @@
 Describe "CapScr Test Group" {
-    Context "The initial CapScr context" {
-        It "CapScr should create a file" {
-           $true | Should -Be $true 
-        }
-        It "should refuse a parameter" {
-           "this" | Should -BeExactly "this" 
-        }
-        It "should show a skip" -Skip  {
-           "this" | Should -BeExactly "this" 
+
+    Context "Pester tests" {
+        It "Pester should work" {
+            $true | Should -Be $true 
         }
     }
+
+    Context "The initial Write-ScreenshotWin tests" {
+
+        It "should be create screenshot jpg file" {
+            . ./CapScr.ps1
+            $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
+            Remove-Item $capFilename -Force
+            Write-ScreenshotWin $capFilename
+            $capFilename | Should -Exist
+            Remove-Item $capFilename -Force
+        }
+}
 }

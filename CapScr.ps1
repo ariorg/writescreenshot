@@ -2,7 +2,7 @@
 
 Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture' 
 
-function WriteScreenshotWin([string]$screenShotPath) {
+function Write-ScreenshotWin([string]$screenShotPath) {
     Add-Type -AssemblyName System.Windows.Forms
     Add-type -AssemblyName System.Drawing
     $screen = [System.Windows.Forms.SystemInformation]::VirtualScreen
@@ -12,7 +12,7 @@ function WriteScreenshotWin([string]$screenShotPath) {
     $bitmap.Save($screenShotPath, [System.Drawing.Imaging.ImageFormat]::Jpeg)
 }
 
-function WriteScreenshotMac([string]$screenShotPath) {
+function Write-ScreenshotMac([string]$screenShotPath) {
     & screencapture -t jpg -x $screenShotPath 
 }
 
@@ -20,10 +20,10 @@ function WriteScreenshotMac([string]$screenShotPath) {
 $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
 
 if ($IsWindows) {
-    WriteScreenShotWin $capFilename
+    Write-ScreenShotWin $capFilename
 }
 elseif ($IsMacOS) {
-    WriteScreenShotMac $capFilename
+    Write-ScreenShotMac $capFilename
 }
 else {
     Write-Error "Only MacOS and Windows supported"
