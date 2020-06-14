@@ -1,8 +1,8 @@
 #!pwsh
 
 function Write-ScreenshotWin([string]$screenShotPath) {
-    Add-Type -AssemblyName System.Windows.Forms
-    Add-type -AssemblyName System.Drawing
+    Add-Type -LiteralPath '/Library/Frameworks/Mono.framework/Versions/6.10.0/lib/mono/4.8-api/System.Windows.Forms.dll'  # -AssemblyName System.Windows.Forms
+    Add-type -LiteralPath '/Library/Frameworks/Mono.framework/Versions/6.10.0/lib/mono/4.8-api/System.Drawing.dll'  # -AssemblyName System.Drawing
     $screen = [System.Windows.Forms.SystemInformation]::VirtualScreen
     $bitmap = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height
     $graphic = [System.Drawing.Graphics]::FromImage($bitmap)
