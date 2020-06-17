@@ -33,11 +33,10 @@ Describe "CapScr Test Group" {
         }
 
         It 'should create date-named file in the supplied folder' {
-            Set-Variable folder -Option Constant -Value (Join-Path $TestDrive '/TestLocation/File')
+            Set-Variable folder -Option Constant -Value (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder')
             Set-Variable fullPath -Option Constant -Value (Join-Path $folder $screenShotFilename)
-
             $fullPath | Should -Not -Exist
-            Write-Screenshot $fullPath
+            Write-Screenshot $folder
             $fullPath | Should -Exist
         }
     }
