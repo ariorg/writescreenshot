@@ -19,11 +19,8 @@ function Write-Screenshot() {
         & screencapture -t jpg -x $screenShotPath 
     }
 
-    Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture'
-
     $dateFileName = Get-Date -Format "yyyy-MM-ddTHH.mm.ss" 
-
-    $capFilename = "$dateFileName.jpg"
+    $capFilename = Join-Path $pwd "$dateFileName.jpg"
 
     if ($IsWindows) {
         Write-ScreenShotWin $capFilename
@@ -35,5 +32,5 @@ function Write-Screenshot() {
         Write-Error "Only MacOS and Windows supported"
             exit
     }
-    Write-Output "Screenshot saved to: $capFilename"
+    # Write-Output "Screenshot saved to: $capFilename"
 }
