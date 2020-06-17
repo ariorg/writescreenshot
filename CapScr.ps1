@@ -21,7 +21,11 @@ function Write-Screenshot() {
 
     Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture'
 
-    $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
+    $dateFileName = Get-Date -Format "yyyy-MM-ddTHH.mm.ss" 
+
+    $capFilename = "$dateFileName.jpg"
+Write-Host $dateFileName
+Write-Host $capFileName
 
     if ($IsWindows) {
         Write-ScreenShotWin $capFilename

@@ -6,6 +6,7 @@ Describe "CapScr Test Group" {
         
         BeforeAll {
             Push-Location
+            Set-Location $TestDrive
         }
 
         AfterAll { 
@@ -13,17 +14,19 @@ Describe "CapScr Test Group" {
         }
         
         It 'should create current-datetime-named-screenshotfile if no filename supplied' {
-            [String]$fileDateFormat = Get-Date -Format "yyyy-MM-ddTHH:mm:ss"
-            # [String]$screenShotFilename = Join-Path $PSScriptRoot "$fileDateFormat.jpg"
+            Set-Variable dateStr -Option Constant -Value "07/06/2015 05:00:10" 
+
+            mock -CommandName 'Get-Date' –MockWith {
+               # [DateTime]$dateStr
+               "yyyy-MM-ddTHH.mm.ss" 
+            }
+
+            [String]$fileDateFormat = Get-Date $dateStr -Format "yyyy-MM-ddTHH.mm.ss"
             [String]$screenShotFilename = "$fileDateFormat.jpg"
-            Write-Host $screenShotFilename
-            Write-Host $TestDrive
-            Push-Location
-            Set-Location $TestDrive
+
             $screenShotFilename | Should -Not -Exist
             Write-Screenshot
             $screenShotFilename | Should -Exist
-            Pop-Location
         }
     }
 }
