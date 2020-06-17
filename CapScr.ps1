@@ -24,8 +24,6 @@ function Write-Screenshot() {
     $dateFileName = Get-Date -Format "yyyy-MM-ddTHH.mm.ss" 
 
     $capFilename = "$dateFileName.jpg"
-Write-Host $dateFileName
-Write-Host $capFileName
 
     if ($IsWindows) {
         Write-ScreenShotWin $capFilename

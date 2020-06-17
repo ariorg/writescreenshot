@@ -15,15 +15,16 @@ Describe "CapScr Test Group" {
         }
         
         It 'should create current-datetime-named-screenshotfile if no filename supplied' {
-            Set-Variable someDate -Option Constant -Value [DateTime]"07/06/2015 05:00:10" 
+            $someDate = [DateTime]"07/06/2015 05:00:10" 
+            $dateFormatFileName = "yyyy-MM-ddTHH.mm.ss" 
 
             mock -CommandName 'Get-Date' –MockWith {
                 param($Format)
-                Write-Host ($someDate).toString("yyyy-MM-dd")
+                $Format | Should -Be $dateFormatFileName
                 $someDate.toString($Format)
             }
 
-            [String]$fileDateFormat = $someDate.toString($Format)
+            [String]$fileDateFormat = $someDate.toString($dateFormatFileName)
             [String]$screenShotFilename = "$fileDateFormat.jpg"
 
             $screenShotFilename | Should -Not -Exist
