@@ -1,6 +1,8 @@
 #!pwsh
 
-function Write-ScreenshotWin([string]$screenShotPath) {
+function Write-ScreenshotWin() {
+    [CmdletBinding()]
+    param([string]$screenShotPath);
     Add-Type -AssemblyName System.Windows.Forms
     Add-type -AssemblyName System.Drawing
     $screen = [System.Windows.Forms.SystemInformation]::VirtualScreen
@@ -14,7 +16,7 @@ function Write-ScreenshotMac([string]$screenShotPath) {
     & screencapture -t jpg -x $screenShotPath 
 }
 
-Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture' 
+Set-Variable capPath -option Readonly -value '/Users/ari/OneDrive/TimeTrack/Capture'
 
 $capFilename = Join-Path $PSScriptRoot 'shot.jpg'
 
@@ -30,4 +32,3 @@ else {
 }
 
 Write-Output "Screenshot saved to: $capFilename"
-
