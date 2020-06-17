@@ -1,9 +1,8 @@
 #!pwsh
-function Write-Screenshot(
+function Write-Screenshot() {
     [CmdletBinding()]
     param(
-        [Parmeter()]
-        [string]$screenShotPath
+        [Parmeter()] [string]$screenShotPath
     );
 
     function Write-ScreenshotWin([string]$screenShotPath) {
