@@ -1,9 +1,8 @@
 #!pwsh
 function Write-Screenshot() {
-    [CmdletBinding()]
     param(
-        [Parmeter()] [string]$screenShotPath
-    );
+         [string]$screenShotPath
+    )
 
     function Write-ScreenshotWin([string]$screenShotPath) {
         Add-Type -AssemblyName System.Windows.Forms
@@ -34,6 +33,5 @@ function Write-Screenshot() {
         Write-Error "Only MacOS and Windows supported"
             exit
     }
-
     Write-Output "Screenshot saved to: $capFilename"
 }
