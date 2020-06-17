@@ -26,19 +26,18 @@ Describe "CapScr Test Group" {
             Pop-Location
         }
 
-        It 'should create datetime-named-screenshotfile in current dir if path not supplied' {
+        It 'should create datetime-named file in current dir if path not supplied' {
             $screenShotFilename | Should -Not -Exist
             Write-Screenshot
             $screenShotFilename | Should -Exist
         }
 
-        It 'should create date-named screenshot file in the supplied folder' {
+        It 'should create date-named file in the supplied folder' {
             Set-Variable folder -Option Constant -Value (Join-Path $TestDrive '/TestLocation/File')
-            Write-Host $folder
             Set-Variable fullPath -Option Constant -Value (Join-Path $folder $screenShotFilename)
-            Write-Host $fullPath
+
             $fullPath | Should -Not -Exist
-            Write-Screenshot
+            Write-Screenshot $fullPath
             $fullPath | Should -Exist
         }
     }
