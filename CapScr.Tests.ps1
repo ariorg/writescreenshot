@@ -9,9 +9,10 @@ Describe "CapScr Test Group" {
             Push-Location
             Set-Location $TestDrive
 
-            Set-Variable someDate -Option Constant -Value ([DateTime]"07/06/2015 05:00:10")
+            Set-Variable someDate           -Option Constant -Value ([DateTime]"07/06/2015 05:00:10")
             Set-Variable dateFilenameFormat -Option Constant -Value "yyyy-MM-ddTHH.mm.ss" 
             Set-Variable screenShotFilename -Option Constant -Value "$($someDate.toString($dateFilenameFormat)).jpg"
+            Set-Variable someFolder         -Option Constant -Value (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder')
 
             mock -CommandName 'Get-Date' –MockWith {
                 param($Format)
@@ -33,13 +34,18 @@ Describe "CapScr Test Group" {
         }
 
         It 'Should create date-named file in the supplied folder' {
-            Set-Variable folder -Option Constant -Value (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder')
-            Set-Variable fullPath -Option Constant -Value (Join-Path $folder $screenShotFilename)
+            Set-Variable fullPath -Option Constant -Value (Join-Path $someFolder $screenShotFilename)
             $fullPath | Should -Not -Exist
-            Write-Screenshot $folder
+            Write-Screenshot $someFolder
             $fullPath | Should -Exist
         }
 
-        It 'Should create correctly named file if Filename parameter is provided' -Skip {}
+        It 'Should create correctly named file if Filename parameter is provided' {
+            Set-Variable someFilename -Option Constant -Value "SomeFileName"
+            
+            $someFilename | Should -Not -Exist
+            Write-Screenshot $someFolder $someFilname
+            "$someFilename.jpg" | Should -Exist
+        }
     }
 }
