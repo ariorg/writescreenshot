@@ -3,7 +3,7 @@ Describe "CapScr Test Group" {
         . .\CapScr.ps1
     }
 
-    Context 'Write-Screenshot datetime-named file tests' {
+    Context 'Write-Screenshot path and filename parameter handling' {
         
         BeforeAll {
             Push-Location
@@ -26,18 +26,20 @@ Describe "CapScr Test Group" {
             Pop-Location
         }
 
-        It 'should create datetime-named file in current dir if path not supplied' {
+        It 'Should create datetime-named file in current dir if path not supplied' {
             $screenShotFilename | Should -Not -Exist
             Write-Screenshot
             $screenShotFilename | Should -Exist
         }
 
-        It 'should create date-named file in the supplied folder' {
+        It 'Should create date-named file in the supplied folder' {
             Set-Variable folder -Option Constant -Value (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder')
             Set-Variable fullPath -Option Constant -Value (Join-Path $folder $screenShotFilename)
             $fullPath | Should -Not -Exist
             Write-Screenshot $folder
             $fullPath | Should -Exist
         }
+
+        It 'Should create correctly named file if Filename parameter is provided' -Skip {}
     }
 }
