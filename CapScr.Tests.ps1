@@ -40,11 +40,11 @@ Describe "CapScr Test Group" {
             $fullPath | Should -Exist
         }
 
-        It 'Should create correctly named file if Filename parameter is provided' {
-            Set-Variable someFilename -Option Constant -Value "SomeFileName"
+        It 'Should create filename.jpg file if Filename parameter is provided' {
+            Set-Variable someFilename -Option Constant -Value "SomeFilename"
             
             $someFilename | Should -Not -Exist
-            Write-Screenshot $someFolder $someFilname
+            Write-Screenshot -Filename $someFilename
             "$someFilename.jpg" | Should -Exist
         }
     }
