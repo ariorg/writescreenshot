@@ -22,7 +22,7 @@ function Write-Screenshot() {
     $dateFileName = Get-Date -Format "yyyy-MM-ddTHH.mm.ss" 
     $capFilename = Join-Path $FolderPath "$dateFileName.jpg"
     if (!(Test-Path $FolderPath)) {
-            New-Item -ItemType Directory -Path $FolderPath
+            New-Item -ItemType Directory -Path $FolderPath | Out-Null
     }
     if ($IsWindows) {
         Write-ScreenShotWin $capFilename
