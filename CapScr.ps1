@@ -13,7 +13,6 @@ function Write-Screenshot() {
         $bitmap = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height
         $graphic = [System.Drawing.Graphics]::FromImage($bitmap)
         $graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)
-Write-Host "Saving to $filepath"
         $bitmap.Save($filepath, [System.Drawing.Imaging.ImageFormat]::Jpeg)
     }
 
@@ -33,7 +32,6 @@ Write-Host "Saving to $filepath"
     $capFilename = Join-Path (Resolve-Path $FolderPath) "$baseFileName.jpg"
     
     if ($IsWindows) {
- Write-Host "Write-ScreenShotWin $capFilename"      
         Write-ScreenShotWin $capFilename
     }
     elseif ($IsMacOS) {
