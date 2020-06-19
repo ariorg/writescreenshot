@@ -36,8 +36,10 @@ function Write-Screenshot() {
     elseif ($IsMacOS) {
         Write-ScreenShotMac $capFilename
     }
+    elseif ($IsLinux) {
+        Write-Error "Write-Screenshot is not supported on Linux"
+    }
     else {
-        Write-Error "Only MacOS and Windows supported"
-        exit
+        Write-Error "Write-Screenshot is only supported on MacOS and Windows"
     }
 }
