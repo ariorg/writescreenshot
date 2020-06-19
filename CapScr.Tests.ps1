@@ -9,10 +9,10 @@ Describe "CapScr Test Group" {
             Push-Location
             Set-Location $TestDrive
 
-            Set-Variable someDate           -Option Constant -Value ([DateTime]"07/06/2015 05:00:10")
-            Set-Variable dateFilenameFormat -Option Constant -Value "yyyy-MM-ddTHH.mm.ss" 
-            Set-Variable screenShotFilename -Option Constant -Value "$($someDate.toString($dateFilenameFormat)).jpg"
-            Set-Variable someFolder         -Option Constant -Value (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder')
+            Set-Variable someDate ([DateTime]"07/06/2015 05:00:10") -Option Constant
+            Set-Variable dateFilenameFormat "yyyy-MM-ddTHH.mm.ss" -Option Constant 
+            Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant 
+            Set-Variable someFolder  (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder') -Option Constant
 
             mock -CommandName 'Get-Date' –MockWith {
                 param($Format)
@@ -41,7 +41,7 @@ Describe "CapScr Test Group" {
         }
 
         It 'Should create filename.jpg file if Filename parameter is provided' {
-            Set-Variable someFilename -Option Constant -Value "SomeFilename"
+            Set-Variable someFilename "SomeFilename" -Option Constant
             
             $someFilename | Should -Not -Exist
             Write-Screenshot -Filename $someFilename
