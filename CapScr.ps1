@@ -1,5 +1,18 @@
 #!pwsh
+<#
+.Synopsis
+Takes a screenshot and stores it in a file
+.DESCRIPTION
+Captures a screenshot of the current screen and stores it as `
+jpg-file current directory. By default the file is named by the `
+current date and time like so 2024-06-20_10.06.37.jpg.
+.EXAMPLE
+Write-Screenshot
+.EXAMPLE
+Write-Screenshot -FolderPath \MyStuff\Screenshots
+#>
 function Write-Screenshot() {
+
     param(
          [string]$FolderPath = $pwd,
          [string]$Filename 
@@ -43,4 +56,5 @@ function Write-Screenshot() {
     else {
         Write-Error "Write-Screenshot is only supported on MacOS and Windows"
     }
+
 }
