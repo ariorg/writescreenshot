@@ -1,16 +1,19 @@
 Describe "CapScr Test Group" {
     BeforeAll {
         . .\CapScr.ps1
+        Push-Location
+        Set-Location $TestDrive
+    }
+
+    AfterAll {
+        Pop-Location
     }
 
     Context 'Write-Screenshot path and filename parameter handling' {
         
         BeforeAll {
-            Push-Location
-            Set-Location $TestDrive
-
             Set-Variable someDate ([DateTime]"07/06/2015 05:00:10") -Option Constant
-            Set-Variable dateFilenameFormat "yyyy-MM-ddTHH.mm.ss" -Option Constant 
+            Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
             Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant 
             Set-Variable someFolder  (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder') -Option Constant
 
@@ -21,10 +24,6 @@ Describe "CapScr Test Group" {
                 return $someDate.toString($Format)
             }
 
-        }
-
-        AfterAll {
-            Pop-Location
         }
 
         It 'Should create datetime-named file in current dir if path not supplied' {
@@ -47,5 +46,12 @@ Describe "CapScr Test Group" {
             Write-Screenshot -Filename $someFilename
             "$someFilename.jpg" | Should -Exist
         }
+    }
+
+    Context 'Write-Screenshot path and filename parameter handling' -Skip {
+        It 'should accept WatchInterval parameter' {
+            
+        }
+        
     }
 }

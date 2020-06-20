@@ -1,6 +1,6 @@
 #!pwsh
 function Write-Screenshot() {
-<#
+    <#
     .Synopsis
     Takes a screenshot and stores it in a file
 
@@ -12,9 +12,19 @@ function Write-Screenshot() {
     .EXAMPLE
     Write-Screenshot
 
+    Creates a screenshot file in the format 2024-06-20_10.06.37.jpg in the 
+    current directory.
+
     .EXAMPLE
-    Write-Screenshot -FolderPath \MyStuff\Screenshots
-#>
+    Write-Screenshot C:\MyStuff\Screenshots
+
+    Creates a screenshot file C:\MyStuff\Screenshots\2024-06-20_10.06.37.jpg 
+
+    .EXAMPLE
+    Write-Screenshot -FolderPath /Screenshots -Filename screenshot10
+
+    Creates a screenshot file /Screenshots/screenshot10.jpg
+    #>
  
     [CmdletBinding()]
     [OutputType([string])]
