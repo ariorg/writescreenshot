@@ -36,7 +36,7 @@ function Write-Screenshot() {
         [int]$Times = 1
     )
 
-    function Write-ScreenshotWin([string]$filepath) {
+    function WriteScreenshotWin([string]$filepath) {
         Add-Type -AssemblyName System.Windows.Forms
         Add-type -AssemblyName System.Drawing
 
@@ -47,31 +47,43 @@ function Write-Screenshot() {
         $bitmap.Save($filepath, [System.Drawing.Imaging.ImageFormat]::Jpeg)
     }
 
-    function Write-ScreenshotMac([string]$filepath) {
+    function WriteScreenshotMac([string]$filepath) {
         & screencapture -t jpg -x $filepath 
     }
 
-    $baseFileName = Get-Date -Format "yyyy-MM-dd_HH.mm.ss" 
-    if ($Filename) {
-        $baseFileName = $Filename
+    function WriteScreenshotAnyPlatform([string]$filepath) {
+        if ($IsWindows) {
+            WriteScreenShotWin $filepath
+        }
+        elseif ($IsMacOS) {
+            WriteScreenShotMac $filepath
+        }
+        elseif ($IsLinux) {
+            Write-Error "Write-Screenshot is not supported on Linux"
+        }
+        else {
+            Write-Error "Write-Screenshot is only supported on MacOS and Windows"
+        }
     }
-    
+
+    function BaseFileName([string] $suppliedFilename) {
+        if ($suppliedFilename) {
+           return $suppliedFilename
+        }
+        return (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
+    }
+
     if (!(Test-Path $FolderPath)) {
         New-Item -ItemType Directory -Path $FolderPath | Out-Null
     }
 
-    $capFilename = Join-Path (Resolve-Path $FolderPath) "$baseFileName.jpg"
-    
-    if ($IsWindows) {
-        Write-ScreenShotWin $capFilename
-    }
-    elseif ($IsMacOS) {
-        Write-ScreenShotMac $capFilename
-    }
-    elseif ($IsLinux) {
-        Write-Error "Write-Screenshot is not supported on Linux"
-    }
-    else {
-        Write-Error "Write-Screenshot is only supported on MacOS and Windows"
+    $timesLeft = $Times
+
+    while (($Times -eq 0) -or ($timesLeft-- -gt 0)) {
+        $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
+        WriteScreenshotAnyPlatform $capFilename
+        if ($timesLeft -ge 1) {
+            Start-Sleep -Seconds $WatchInterval
+        }
     }
 }

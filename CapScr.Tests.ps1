@@ -3,6 +3,7 @@ Describe "CapScr Test Group" {
         . .\CapScr.ps1
         Push-Location
         Set-Location $TestDrive
+        Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
     }
 
     AfterAll {
@@ -13,7 +14,6 @@ Describe "CapScr Test Group" {
         
         BeforeAll {
             Set-Variable someDate ([DateTime]"07/06/2015 05:00:10") -Option Constant
-            Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
             Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant
             Set-Variable someFolder  (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder') -Option Constant
 
@@ -23,7 +23,6 @@ Describe "CapScr Test Group" {
                 $Format | Should -Be $dateFilenameFormat
                 return $someDate.toString($Format)
             }
-
         }
 
         It 'Should create datetime-named file in current dir if path not supplied' {
@@ -57,13 +56,30 @@ Describe "CapScr Test Group" {
             Write-Screenshot -WatchInterval 12 -Times 1
          }
 
-        It 'should call StartSleep with -WatchInterval and -Times times' -Skip {
+        It 'Should call Start-Sleep Times-1 times with WatchInterval' {
             Set-Variable sleepSecs 10 -Option Constant
             Set-Variable howOften 3 -Option Constant
 
             Write-Screenshot -WatchInterval $sleepSecs -Times $howOften
 
-            Assert-MockCalled Start-Sleep -Exactly $howOften -ExclusiveFilter { $Seconds -eq $sleepSecs }
+            Assert-MockCalled Start-Sleep -Exactly ($howOften-1) -ExclusiveFilter { $Seconds -eq $sleepSecs }
+        }
+
+        It 'Should create Times number of screenshot' {
+            Set-Variable howOften 3 -Option Constant
+            Set-Variable folder '.\sshots' -Option Constant
+            $anyDate = ([DateTime]"07/06/2015 05:00:10")
+            $global:timesCalled = 0;
+
+            mock -CommandName 'Get-Date' –MockWith {
+                $Format | Should -Be $dateFilenameFormat
+                $anyDate = $anyDate.AddSeconds($global:timesCalled++)
+                return $anyDate.toString($Format)
+            }
+
+            Write-Screenshot -FolderPath $folder -Times $howOften
+            (Get-ChildItem $folder | Measure-Object ).Count | Should -Be $howOften
+
         }
         
     }
