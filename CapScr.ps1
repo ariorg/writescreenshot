@@ -1,21 +1,27 @@
 #!pwsh
-<#
-.Synopsis
-Takes a screenshot and stores it in a file
-.DESCRIPTION
-Captures a screenshot of the current screen and stores it as `
-jpg-file current directory. By default the file is named by the `
-current date and time like so 2024-06-20_10.06.37.jpg.
-.EXAMPLE
-Write-Screenshot
-.EXAMPLE
-Write-Screenshot -FolderPath \MyStuff\Screenshots
-#>
 function Write-Screenshot() {
+<#
+    .Synopsis
+    Takes a screenshot and stores it in a file
 
+    .DESCRIPTION
+    Captures a screenshot of the current screen and stores it as jpg-file in the 
+    supplied directory. By default the file is named by the current date and time 
+    like so 2024-06-20_10.06.37.jpg.
+    
+    .EXAMPLE
+    Write-Screenshot
+
+    .EXAMPLE
+    Write-Screenshot -FolderPath \MyStuff\Screenshots
+#>
+ 
+    [CmdletBinding()]
+    [OutputType([string])]
+    
     param(
-         [string]$FolderPath = $pwd,
-         [string]$Filename 
+        [string]$FolderPath = $pwd,
+        [string]$Filename 
     )
 
     function Write-ScreenshotWin([string]$filepath) {
@@ -33,13 +39,13 @@ function Write-Screenshot() {
         & screencapture -t jpg -x $filepath 
     }
 
-    $baseFileName = Get-Date -Format "yyyy-MM-ddTHH.mm.ss" 
+    $baseFileName = Get-Date -Format "yyyy-MM-dd_HH.mm.ss" 
     if ($Filename) {
         $baseFileName = $Filename
     }
     
     if (!(Test-Path $FolderPath)) {
-            New-Item -ItemType Directory -Path $FolderPath | Out-Null
+        New-Item -ItemType Directory -Path $FolderPath | Out-Null
     }
 
     $capFilename = Join-Path (Resolve-Path $FolderPath) "$baseFileName.jpg"
@@ -56,5 +62,4 @@ function Write-Screenshot() {
     else {
         Write-Error "Write-Screenshot is only supported on MacOS and Windows"
     }
-
 }
