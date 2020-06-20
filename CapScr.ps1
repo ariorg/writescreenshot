@@ -31,7 +31,9 @@ function Write-Screenshot() {
     
     param(
         [string]$FolderPath = $pwd,
-        [string]$Filename 
+        [string]$Filename,
+        [int]$WatchInterval = 60,
+        [int]$Times = 1
     )
 
     function Write-ScreenshotWin([string]$filepath) {

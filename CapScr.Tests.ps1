@@ -14,7 +14,7 @@ Describe "CapScr Test Group" {
         BeforeAll {
             Set-Variable someDate ([DateTime]"07/06/2015 05:00:10") -Option Constant
             Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
-            Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant 
+            Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant
             Set-Variable someFolder  (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder') -Option Constant
 
             mock -CommandName 'Get-Date' –MockWith {
@@ -48,9 +48,22 @@ Describe "CapScr Test Group" {
         }
     }
 
-    Context 'Write-Screenshot path and filename parameter handling' -Skip {
-        It 'should accept WatchInterval parameter' {
-            
+    Context 'Write-Screenshot path and filename parameter handling' {
+        BeforeAll {
+            mock -CommandName 'Start-Sleep' –MockWith { }
+        }
+
+        It 'should accept -WatchInterval and -Times parameters' {
+            Write-Screenshot -WatchInterval 12 -Times 1
+         }
+
+        It 'should call StartSleep with -WatchInterval and -Times times' -Skip {
+            Set-Variable sleepSecs 10 -Option Constant
+            Set-Variable howOften 3 -Option Constant
+
+            Write-Screenshot -WatchInterval $sleepSecs -Times $howOften
+
+            Assert-MockCalled Start-Sleep -Exactly $howOften -ExclusiveFilter { $Seconds -eq $sleepSecs }
         }
         
     }
