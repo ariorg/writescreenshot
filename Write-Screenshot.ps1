@@ -1,4 +1,3 @@
-#!pwsh
 function Write-Screenshot() {
     <#
     .Synopsis
