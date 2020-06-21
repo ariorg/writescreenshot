@@ -1,6 +1,6 @@
 Describe "CapScr Test Group" {
     BeforeAll {
-        . .\CapScr.ps1
+        . .\Write-Screenshot.ps1
         Push-Location
         Set-Location $TestDrive
         Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
