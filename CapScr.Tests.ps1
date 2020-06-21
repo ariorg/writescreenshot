@@ -10,7 +10,7 @@ Describe "CapScr Test Group" {
         Pop-Location
     }
 
-    Context 'Write-Screenshot path and filename parameter handling' {
+    Context 'Write-Screenshot FolderPath and Filename parameter handling' {
         
         BeforeAll {
             Set-Variable someDate ([DateTime]"07/06/2023 05:00:10") -Option Constant
@@ -40,14 +40,14 @@ Describe "CapScr Test Group" {
 
         It 'Should create filename.jpg file if Filename parameter is provided' {
             Set-Variable someFilename "SomeFilename" -Option Constant
-            
+
             $someFilename | Should -Not -Exist
             Write-Screenshot -Filename $someFilename
             "$someFilename.jpg" | Should -Exist
         }
     }
 
-    Context 'Write-Screenshot path and filename parameter handling' {
+    Context 'Write-Screenshot -Times and -WatchInterval parameter handling' {
         BeforeAll {
             mock -CommandName 'Start-Sleep' –MockWith { }
         }
@@ -56,12 +56,11 @@ Describe "CapScr Test Group" {
             Write-Screenshot -WatchInterval 12 -Times 1
          }
 
-        It 'Should call Start-Sleep Times-1 times with WatchInterval' {
+        It 'Should call Start-Sleep (Times-1) times with correct WatchInterval' {
             Set-Variable sleepSecs 10 -Option Constant
             Set-Variable times 3 -Option Constant
 
             Write-Screenshot -WatchInterval $sleepSecs -Times $times
-
             Assert-MockCalled Start-Sleep -Exactly ($times-1) -ExclusiveFilter { $Seconds -eq $sleepSecs }
         }
 
@@ -77,7 +76,7 @@ Describe "CapScr Test Group" {
             }
 
             Write-Screenshot -FolderPath $folder -Times $times
-            (Get-ChildItem $folder | Measure-Object ).Count | Should -Be $times
+            (Get-ChildItem $folder | Measure-Object).Count | Should -Be $times
         }
     }
 }
