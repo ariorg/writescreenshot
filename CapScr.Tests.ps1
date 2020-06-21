@@ -13,7 +13,7 @@ Describe "CapScr Test Group" {
     Context 'Write-Screenshot path and filename parameter handling' {
         
         BeforeAll {
-            Set-Variable someDate ([DateTime]"07/06/2015 05:00:10") -Option Constant
+            Set-Variable someDate ([DateTime]"07/06/2023 05:00:10") -Option Constant
             Set-Variable screenShotFilename "$($someDate.toString($dateFilenameFormat)).jpg" -Option Constant
             Set-Variable someFolder  (Join-Path $TestDrive '/AnyFolder/SomeOtherFolder') -Option Constant
 
@@ -58,29 +58,26 @@ Describe "CapScr Test Group" {
 
         It 'Should call Start-Sleep Times-1 times with WatchInterval' {
             Set-Variable sleepSecs 10 -Option Constant
-            Set-Variable howOften 3 -Option Constant
+            Set-Variable times 3 -Option Constant
 
-            Write-Screenshot -WatchInterval $sleepSecs -Times $howOften
+            Write-Screenshot -WatchInterval $sleepSecs -Times $times
 
-            Assert-MockCalled Start-Sleep -Exactly ($howOften-1) -ExclusiveFilter { $Seconds -eq $sleepSecs }
+            Assert-MockCalled Start-Sleep -Exactly ($times-1) -ExclusiveFilter { $Seconds -eq $sleepSecs }
         }
 
         It 'Should create Times number of screenshot' {
-            Set-Variable howOften 3 -Option Constant
+            Set-Variable times 3 -Option Constant
             Set-Variable folder '.\sshots' -Option Constant
-            $anyDate = ([DateTime]"07/06/2015 05:00:10")
-            $global:timesCalled = 0;
+            $anyDate = ([DateTime]"07/06/2024 05:00:10")
+            $timesCalled = 0;
 
             mock -CommandName 'Get-Date' –MockWith {
                 $Format | Should -Be $dateFilenameFormat
-                $anyDate = $anyDate.AddSeconds($global:timesCalled++)
-                return $anyDate.toString($Format)
+                return $anyDate.AddSeconds($script:timesCalled++).toString($Format)
             }
 
-            Write-Screenshot -FolderPath $folder -Times $howOften
-            (Get-ChildItem $folder | Measure-Object ).Count | Should -Be $howOften
-
+            Write-Screenshot -FolderPath $folder -Times $times
+            (Get-ChildItem $folder | Measure-Object ).Count | Should -Be $times
         }
-        
     }
 }
