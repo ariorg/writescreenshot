@@ -38,7 +38,11 @@ function Write-Screenshot() {
     param(
         [string]$FolderPath = $pwd,
         [string]$Filename,
+
+        [ValidateRange(1, [int]::MaxValue)]
         [int]$Interval = 60,
+
+        [ValidateRange(0, [int]::MaxValue)]
         [int]$Times = 1
     )
 
