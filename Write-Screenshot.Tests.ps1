@@ -47,20 +47,20 @@ Describe "CapScr Test Group" {
         }
     }
 
-    Context 'Write-Screenshot -Times and -WatchInterval parameter handling' {
+    Context 'Write-Screenshot -Times and -Interval parameter handling' {
         BeforeAll {
             mock -CommandName 'Start-Sleep' –MockWith { }
         }
 
-        It 'should accept -WatchInterval and -Times parameters' {
-            Write-Screenshot -WatchInterval 12 -Times 1
+        It 'should accept -Interval and -Times parameters' {
+            Write-Screenshot -Interval 12 -Times 1
          }
 
-        It 'Should call Start-Sleep (Times-1) times with correct WatchInterval' {
+        It 'Should call Start-Sleep (Times-1) times with correct Interval' {
             Set-Variable sleepSecs 10 -Option Constant
             Set-Variable times 3 -Option Constant
 
-            Write-Screenshot -WatchInterval $sleepSecs -Times $times
+            Write-Screenshot -Interval $sleepSecs -Times $times
             Assert-MockCalled Start-Sleep -Exactly ($times-1) -ExclusiveFilter { $Seconds -eq $sleepSecs }
         }
 

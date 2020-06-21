@@ -32,7 +32,7 @@ function Write-Screenshot() {
     param(
         [string]$FolderPath = $pwd,
         [string]$Filename,
-        [int]$WatchInterval = 60,
+        [int]$Interval = 60,
         [int]$Times = 1
     )
 
@@ -83,7 +83,7 @@ function Write-Screenshot() {
         $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
         WriteScreenshotAnyPlatform $capFilename
         if ($timesLeft -ge 1) {
-            Start-Sleep -Seconds $WatchInterval
+            Start-Sleep -Seconds $Interval
         }
     }
 }
