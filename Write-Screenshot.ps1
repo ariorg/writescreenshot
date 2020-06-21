@@ -9,6 +9,13 @@ function Write-Screenshot() {
     supplied directory. By default the file is named by the current date and time 
     like so 2024-06-20_10.06.37.jpg.
     
+    .PARAMETER Interval
+    The Interval in seconds between creating a new screenshot.
+
+    .PARAMETER Times
+    Specifies how many times to create a screenshots, waiting -Interval seconds 
+    between each. The script will run forever if Times is set to 0.
+    
     .EXAMPLE
     Write-Screenshot
 
