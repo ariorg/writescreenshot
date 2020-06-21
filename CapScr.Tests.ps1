@@ -27,13 +27,13 @@ Describe "CapScr Test Group" {
             Pop-Location
         }
 
-        It 'Should create datetime-named file in current dir if path not supplied' {
+        It 'Should create datetime-named file in current dir if FolderPath not supplied' {
             $screenShotFilename | Should -Not -Exist
             Write-Screenshot
             $screenShotFilename | Should -Exist
         }
 
-        It 'Should create date-named file in the supplied folder' {
+        It 'Should create date-named file in the supplied FolderPath' {
             Set-Variable fullPath -Option Constant -Value (Join-Path $someFolder $screenShotFilename)
             $fullPath | Should -Not -Exist
             Write-Screenshot $someFolder
