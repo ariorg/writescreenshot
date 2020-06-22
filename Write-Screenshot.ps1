@@ -49,7 +49,9 @@ function Write-Screenshot() {
         [int]$Interval = 60,
 
         [ValidateRange(0, [int]::MaxValue)]
-        [int]$Times = 1
+        [int]$Times = 1,
+
+        [switch]$Forever
     )
 
     function WriteScreenshotWin([string]$filepath) {

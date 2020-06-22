@@ -1,4 +1,4 @@
-Describe "CapScr Test Group" {
+Describe "Write-Screenshot Tests" {
     BeforeAll {
         . .\Write-Screenshot.ps1
         Push-Location
@@ -47,13 +47,13 @@ Describe "CapScr Test Group" {
         }
     }
 
-    Context 'Write-Screenshot -Times and -Interval parameter handling' {
+    Context 'Write-Screenshot -Times, -Interval and -Forever parameter handling' {
         BeforeAll {
             mock -CommandName 'Start-Sleep' –MockWith { }
         }
 
-        It 'should accept -Interval and -Times parameters' {
-            Write-Screenshot -Interval 12 -Times 1
+        It 'Should accept -Interval and -Times parameters' {
+            Write-Screenshot -Interval 3 -Times 2
          }
 
         It 'Should call Start-Sleep (Times-1) times with correct Interval' {
@@ -77,6 +77,11 @@ Describe "CapScr Test Group" {
 
             Write-Screenshot -FolderPath $folder -Times $times
             (Get-ChildItem $folder | Measure-Object).Count | Should -Be $times
+        }
+        It 'Should accept -Forever parameter' {
+            $global:isTestingForever = $true
+            Write-Screenshot -Forever
+            $global:isTestingForever = $true
         }
     }
 }
