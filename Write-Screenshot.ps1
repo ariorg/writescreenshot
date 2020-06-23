@@ -54,7 +54,11 @@ function Write-Screenshot() {
         [switch]$Forever
     )
 
-    function WriteScreenshotWin([string]$filepath) {
+    function _isRunningUnderTest() {
+        return (Test-Path $isRunningUnderTest);
+    }
+
+    function _writeScreenshotWin([string]$filepath) {
         Add-Type -AssemblyName System.Windows.Forms
         Add-type -AssemblyName System.Drawing
 
@@ -65,16 +69,16 @@ function Write-Screenshot() {
         $bitmap.Save($filepath, [System.Drawing.Imaging.ImageFormat]::Jpeg)
     }
 
-    function WriteScreenshotMac([string]$filepath) {
+    function _writeScreenshotMac([string]$filepath) {
         & screencapture -t jpg -x $filepath 
     }
 
     function WriteScreenshotAnyPlatform([string]$filepath) {
         if ($IsWindows) {
-            WriteScreenShotWin $filepath
+            _writeScreenShotWin $filepath
         }
         elseif ($IsMacOS) {
-            WriteScreenShotMac $filepath
+            _writeScreenShotMac $filepath
         }
         elseif ($IsLinux) {
             Write-Error "Write-Screenshot is not supported on Linux"

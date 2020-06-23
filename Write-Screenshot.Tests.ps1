@@ -4,6 +4,7 @@ Describe "Write-Screenshot Tests" {
         Push-Location
         Set-Location $TestDrive
         Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
+        Set-Variable isRunningUnderTest True -Scope script -Option Constant
     }
 
     AfterAll {
