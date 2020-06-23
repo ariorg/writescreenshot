@@ -106,7 +106,7 @@ function Write-Screenshot() {
     while ($Forever -or ($timesLeft-- -gt 0)) {
         $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
         WriteScreenshotAnyPlatform $capFilename
-        if (($timesLeft -le 0) -or ($Forever -and $isRunningUnderTest)) {
+        if (!$Forever -and $timesLeft -le 0) {
             break
         }
         Start-Sleep -Seconds $Interval

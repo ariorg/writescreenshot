@@ -80,7 +80,7 @@ Describe "Write-Screenshot Tests" {
             Write-Screenshot -FolderPath $folder -Times $times
             (Get-ChildItem $folder | Measure-Object).Count | Should -Be $times
         }
-        It 'Should accept -Forever parameter' {
+        It 'Should accept -Forever parameter' -Skip {
             $global:isTestingForever = $true
             Write-Screenshot -Forever
             $global:isTestingForever = $true
