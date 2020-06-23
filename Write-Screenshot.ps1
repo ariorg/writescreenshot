@@ -13,8 +13,11 @@ function Write-Screenshot() {
 
     .PARAMETER Times
     Specifies how many times to create a screenshots, waiting -Interval seconds 
-    between each. The script will run forever if Times is set to 0.
+    between each. 
     
+    .PARAMETER Forever
+    Runs the screen capture forever. Overrides the Times parameter.
+
     .EXAMPLE
     Write-Screenshot
 
@@ -54,10 +57,6 @@ function Write-Screenshot() {
         [switch]$Forever
     )
 
-    function _isRunningUnderTest() {
-        return (Test-Path $isRunningUnderTest);
-    }
-
     function _writeScreenshotWin([string]$filepath) {
         Add-Type -AssemblyName System.Windows.Forms
         Add-type -AssemblyName System.Drawing
@@ -80,9 +79,6 @@ function Write-Screenshot() {
         elseif ($IsMacOS) {
             _writeScreenShotMac $filepath
         }
-        elseif ($IsLinux) {
-            Write-Error "Write-Screenshot is not supported on Linux"
-        }
         else {
             Write-Error "Write-Screenshot is only supported on MacOS and Windows"
         }
@@ -100,12 +96,12 @@ function Write-Screenshot() {
     }
 
     $timesLeft = $Times
-
-    while (($Times -eq 0) -or ($timesLeft-- -gt 0)) {
+    while ($Forever -or ($timesLeft-- -gt 0)) {
         $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
         WriteScreenshotAnyPlatform $capFilename
-        if ($timesLeft -ge 1) {
-            Start-Sleep -Seconds $Interval
+        if (($timesLeft -le 0) -or ($Forever -and $isRunningUnderTest)) {
+            break
         }
+        Start-Sleep -Seconds $Interval
     }
 }
