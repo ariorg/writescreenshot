@@ -8,6 +8,13 @@ function Write-Screenshot() {
     supplied directory. By default the file is named by the current date and time 
     like so 2024-06-20_10.06.37.jpg.
     
+    .PARAMETER FolderPath
+    Path of the folder where the captured screenshots will be saved.
+
+    .PARAMETER Filename
+    Specifies the filename of the screenshot file. Overrides the default
+    filename format of 2024-06-20_10.06.37.jpg.
+
     .PARAMETER Interval
     The Interval in seconds between creating a new screenshot.
 
