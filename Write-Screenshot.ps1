@@ -93,7 +93,7 @@ function Write-Screenshot() {
 
     function BaseFileName([string] $suppliedFilename) {
         if ($suppliedFilename) {
-           return $suppliedFilename
+            return $suppliedFilename
         }
         return (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
     }
@@ -103,10 +103,11 @@ function Write-Screenshot() {
     }
 
     $timesLeft = $Times
-    while ($Forever -or ($timesLeft-- -gt 0)) {
+    while (($timesLeft-- -gt 0) -or $Forever) {
         $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
         WriteScreenshotAnyPlatform $capFilename
-        if (!$Forever -and $timesLeft -le 0) {
+        if ((!$Forever -and $timesLeft -le 0) -or
+            ($Forever -and $script:isRunningUnderTest)) {
             break
         }
         Start-Sleep -Seconds $Interval

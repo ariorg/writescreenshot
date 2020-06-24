@@ -8,7 +8,7 @@ Describe "Write-Screenshot Tests" {
     }
 
     AfterAll {
-        Set-Variable isRunningUnderTest -Value False -Scope Script
+        Clear-Variable isRunningUnderTest -Scope Script
         Pop-Location
     }
 
@@ -44,7 +44,9 @@ Describe "Write-Screenshot Tests" {
             Set-Variable someFilename "SomeFilename" -Option Constant
 
             $someFilename | Should -Not -Exist
+            $script:isRunningUnderTest = $false
             Write-Screenshot -Filename $someFilename
+            $script:isRunningUnderTest = $true
             "$someFilename.jpg" | Should -Exist
         }
     }
@@ -80,10 +82,8 @@ Describe "Write-Screenshot Tests" {
             Write-Screenshot -FolderPath $folder -Times $times
             (Get-ChildItem $folder | Measure-Object).Count | Should -Be $times
         }
-        It 'Should accept -Forever parameter' -Skip {
-            $global:isTestingForever = $true
+        It 'Should accept -Forever parameter' {
             Write-Screenshot -Forever
-            $global:isTestingForever = $true
         }
     }
 }
