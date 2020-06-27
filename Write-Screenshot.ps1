@@ -1,6 +1,6 @@
 function Write-Screenshot() {
     <#
-    .Synopsis
+    .SYNOPSIS
     Takes a screenshot and stores it in a file
 
     .DESCRIPTION
@@ -103,13 +103,15 @@ function Write-Screenshot() {
     }
 
     $timesLeft = $Times
-    while (($timesLeft-- -gt 0) -or $Forever) {
+    while (($timesLeft -gt 0) -or $Forever) {
         $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
         WriteScreenshotAnyPlatform $capFilename
-        if ((!$Forever -and $timesLeft -le 0) -or
-            ($Forever -and $script:isRunningUnderTest)) {
+        if ($timesLeft -gt 1) {
+            Start-Sleep -Seconds $Interval
+        }
+        if ($Forever -and $script:isRunningUnderTest) {
             break
         }
-        Start-Sleep -Seconds $Interval
+        $timesLeft--
     }
 }
