@@ -91,17 +91,14 @@ function Write-Screenshot() {
         }
     }
 
-    function BaseFileName([string] $suppliedFilename) {
-        $suppliedFilename ? $suppliedFilename : (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
-    }
-
     if (!(Test-Path $FolderPath)) {
         New-Item -ItemType Directory -Path $FolderPath | Out-Null
     }
 
     $timesLeft = $Times
     while (($timesLeft -gt 0) -or $Forever) {
-        $capFilename = Join-Path (Resolve-Path $FolderPath) "$(BaseFileName($Filename)).jpg"
+        [string]$baseFilename = $Filename ? $Filename : (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
+        [string]$capFilename = Join-Path (Resolve-Path $FolderPath) "$baseFilename.jpg"
         WriteScreenshotAnyPlatform $capFilename
 
         if ($timesLeft -gt 1) {
