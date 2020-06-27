@@ -92,10 +92,7 @@ function Write-Screenshot() {
     }
 
     function BaseFileName([string] $suppliedFilename) {
-        if ($suppliedFilename) {
-            return $suppliedFilename
-        }
-        return (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
+        $suppliedFilename ? $suppliedFilename : (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
     }
 
     if (!(Test-Path $FolderPath)) {
