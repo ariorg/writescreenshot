@@ -28,13 +28,13 @@ function Write-Screenshot() {
     .EXAMPLE
     Write-Screenshot
 
-    Creates a screenshot file in the format 2024-06-20_10.06.37.jpg in the 
+    Creates a screenshot file in the format 2024-06-20T10.06.37.jpg in the 
     current directory.
 
     .EXAMPLE
     Write-Screenshot C:\MyStuff\Screenshots
 
-    Creates a screenshot file C:\MyStuff\Screenshots\2024-06-20_10.06.37.jpg 
+    Creates a screenshot file C:\MyStuff\Screenshots\2024-06-20t10.06.37.jpg 
 
     .EXAMPLE
     Write-Screenshot -FolderPath /Screenshots -Filename screenshot10
@@ -44,7 +44,7 @@ function Write-Screenshot() {
     .EXAMPLE
     Write-Screenhot -FolderPath /Screenshots -Interval 600 -Times 10
     
-    Creates screenshot every 10 minutes in /Screenshots as 2024-06-20_10.06.37.jpg, 
+    Creates screenshot every 10 minutes in /Screenshots as 2024-06-20T10.06.37.jpg, 
     2024-06-20_20.06.37.jpg, 024-06-30_10.06.37.jpg etc.
     #>
  
@@ -97,7 +97,7 @@ function Write-Screenshot() {
 
     $timesLeft = $Times
     while (($timesLeft -gt 0) -or $Forever) {
-        [string]$baseFilename = $Filename ? $Filename : (Get-Date -Format "yyyy-MM-dd_HH.mm.ss")
+        [string]$baseFilename = $Filename ? $Filename : (Get-Date -Format "yyyy-MM-ddTHH.mm.ss")
         [string]$capFilename = Join-Path (Resolve-Path $FolderPath) "$baseFilename.jpg"
         WriteScreenshotAnyPlatform $capFilename
 
