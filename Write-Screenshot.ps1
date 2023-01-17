@@ -6,14 +6,14 @@ function Write-Screenshot() {
     .DESCRIPTION
     Captures a screenshot of the current screen and stores it as jpg-file in the 
     supplied directory. By default the file is named by the current date and time 
-    like so 2024-06-20_10.06.37.jpg.
+    like so 2024-06-20T10.06.37.jpg.
     
     .PARAMETER FolderPath
     Path of the folder where the captured screenshots will be saved.
 
     .PARAMETER Filename
     Specifies the filename of the screenshot file. Overrides the default
-    filename format of 2024-06-20_10.06.37.jpg.
+    filename format of 2024-06-20T10.06.37.jpg.
 
     .PARAMETER Interval
     The Interval in seconds between creating a new screenshot.
@@ -34,7 +34,7 @@ function Write-Screenshot() {
     .EXAMPLE
     Write-Screenshot C:\MyStuff\Screenshots
 
-    Creates a screenshot file C:\MyStuff\Screenshots\2024-06-20t10.06.37.jpg 
+    Creates a screenshot file C:\MyStuff\Screenshots\2024-06-20T10.06.37.jpg 
 
     .EXAMPLE
     Write-Screenshot -FolderPath /Screenshots -Filename screenshot10
