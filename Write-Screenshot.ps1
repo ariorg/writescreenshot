@@ -45,7 +45,7 @@ function Write-Screenshot() {
     Write-Screenhot -FolderPath /Screenshots -Interval 600 -Times 10
     
     Creates screenshot every 10 minutes in /Screenshots as 2024-06-20T10.06.37.jpg, 
-    2024-06-20_20.06.37.jpg, 024-06-30_10.06.37.jpg etc.
+    2024-06-20T20.06.37.jpg, 024-06-30T10.06.37.jpg etc.
     #>
  
     [CmdletBinding()]

@@ -3,7 +3,7 @@ Describe "Write-Screenshot Tests" {
         . .\Write-Screenshot.ps1
         Push-Location
         Set-Location $TestDrive
-        Set-Variable dateFilenameFormat "yyyy-MM-dd_HH.mm.ss" -Option Constant 
+        Set-Variable dateFilenameFormat "yyyy-MM-ddTHH.mm.ss" -Option Constant 
         Set-Variable isRunningUnderTest -Value True -Scope Script
     }
 
@@ -82,6 +82,7 @@ Describe "Write-Screenshot Tests" {
             Write-Screenshot -FolderPath $folder -Times $times
             (Get-ChildItem $folder | Measure-Object).Count | Should -Be $times
         }
+
         It 'Should accept -Forever parameter' {
             Write-Screenshot -Forever
         }
